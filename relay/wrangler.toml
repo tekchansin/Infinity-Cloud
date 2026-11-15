@@ -1,0 +1,23 @@
+# Infinity Remote — player.anantarultimate.com (src/index.js). Deploy: ./deploy.sh (the UI from InfinityDesktop + this Worker)
+name = "infinity-remote"
+main = "src/index.js"
+compatibility_date = "2025-07-01"
+workers_dev = false  # only reachable via player.anantarultimate.com
+
+routes = [{ pattern = "player.anantarultimate.com", custom_domain = true }]
+
+# the web app: InfinityDesktop/ui/dist, copied in by deploy.sh (gitignored). Assets answer first; /v1/* reaches the Worker
+[assets]
+directory = "./public"
+binding = "ASSETS"
+# no "/index.html → /" redirect of its own: the zone turns "/" into "/index.html" (the website's rule), and with both the
+# page looped on a 307 (2026-11-07). A folder path without that rule: the Worker serves its index.html (src/index.js)
+html_handling = "none"
+
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]  # SQLite-backed: allowed on the Free plan too

@@ -1,0 +1,16 @@
+name = "infinity-meta"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+workers_dev = false  # only via meta.anantarultimate.com
+
+routes = [{ pattern = "meta.anantarultimate.com", custom_domain = true }]
+
+[triggers]
+crons = ["30 3 * * *"]  # daily: drop answers older than 60 days
+
+[[d1_databases]]
+binding = "DB"
+database_name = "infinity-meta"
+database_id = "<your D1 database id>"
+
+# Secret (wrangler secret put): LASTFM_KEY — Last.fm similar artists (optional: without it that part is left out).

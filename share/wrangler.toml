@@ -1,0 +1,16 @@
+name = "infinity-share"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+workers_dev = false  # only reachable via share.anantarultimate.com
+
+routes = [{ pattern = "share.anantarultimate.com", custom_domain = true }]
+
+[triggers]
+crons = ["0 * * * *"]  # hourly ip_hash purge (GDPR retention)
+
+[[d1_databases]]
+binding = "DB"
+database_name = "infinity-share"
+database_id = "<your D1 database id>"
+
+# Secrets (wrangler secret put): ADMIN_KEY — moderation delete; SALT — IP hash salt.
